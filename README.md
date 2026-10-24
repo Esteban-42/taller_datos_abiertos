@@ -53,7 +53,7 @@ para todos los endpoints.
 
 | Cargando | Error |
 |---|---|
-| ![](docs/capturas/cargando.png) | ![](docs/capturas/error.png) |
+| ![](docs/capturas/Cargando.png) | ![](docs/capturas/error.png) |
 
 ## Paquetes
 `http`, `go_router`, `flutter_dotenv`
