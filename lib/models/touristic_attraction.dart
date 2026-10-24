@@ -1,5 +1,11 @@
 ﻿import 'api_item.dart';
 
+double? _toDouble(dynamic v) {
+  if (v == null) return null;
+  if (v is num) return v.toDouble();
+  return double.tryParse(v.toString().replaceAll(',', '.'));
+}
+
 class TouristicAttraction implements ApiItem {
   @override
   final int id;
@@ -21,12 +27,18 @@ class TouristicAttraction implements ApiItem {
 
   factory TouristicAttraction.fromJson(Map<String, dynamic> json) =>
       TouristicAttraction(
-        id: json['id'] ?? 0,
-        name: json['name'] ?? 'Sin nombre',
-        description: json['description'],
-        images: (json['images'] as List?)?.map((e) => e.toString()).toList() ?? [],
-        latitude: (json['latitude'] as num?)?.toDouble(),
-        longitude: (json['longitude'] as num?)?.toDouble(),
+        id: (json['id'] as num?)?.toInt() ?? 0,
+        name: json['name']?.toString() ?? 'Sin nombre',
+        description: json['description']?.toString(),
+        images: (json['images'] as List?)
+                ?.map((e) => e is Map
+                    ? (e['url'] ?? e['imageUrl'] ?? '').toString()
+                    : e.toString())
+                .where((s) => s.isNotEmpty)
+                .toList() ??
+            [],
+        latitude: _toDouble(json['latitude']),
+        longitude: _toDouble(json['longitude']),
       );
 
   @override
